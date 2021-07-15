@@ -27,14 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  bool _obscureText = true;
+  bool _showCode = false;
   String _password = "";
-
-  void _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +41,27 @@ class MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Benutzername',
-                    icon: const Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: const Icon(Icons.person_add))),
-                obscureText: _obscureText,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  prefixIcon: Icon(Icons.person_add),
+                ),
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Code',
-                    icon: const Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: const Icon(Icons.lock))),
-                obscureText: _obscureText,
+                obscureText: !this._showCode,
+                decoration: InputDecoration(
+                  labelText: 'Code',
+                  prefixIcon: Icon(Icons.security),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: this._showCode ? Colors.blue : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() => this._showCode = !this._showCode);
+                    },
+                  ),
+                ),
               ),
-              IconButton(
-                  icon: const Icon(Icons.hide_source), onPressed: _toggle),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -82,29 +80,4 @@ getPassword() {
   String password = generatePassword('test', 'code');
   print(password);
   return password;
-}
-
-class PasswordGenerated extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Password Generated"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('$generatePassword'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Back to Menu'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
