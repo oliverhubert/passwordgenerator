@@ -29,6 +29,10 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   bool _showCode = false;
   String _password = "";
+  String _name = "";
+  String _code = "";
+  final nameController = TextEditingController();
+  final codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +45,14 @@ class MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Name',
                   prefixIcon: Icon(Icons.person_add),
                 ),
               ),
               TextFormField(
+                controller: codeController,
                 obscureText: !this._showCode,
                 decoration: InputDecoration(
                   labelText: 'Code',
@@ -65,19 +71,18 @@ class MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      _password = getPassword();
+                      _name = nameController.text;
+                      _code = codeController.text;
+                      _password = generatePassword(_name, _code);
+                      print("test" + _name + _code + _password);
                     });
                   },
                   child: const Text('Generate Password')),
-              Text(_password)
+              Text(_name + _code + _password)
             ]),
       ),
     );
   }
 }
 
-getPassword() {
-  String password = generatePassword('test', 'code');
-  print(password);
-  return password;
-}
+// I/flutter ( 6042): testnamecode[114, 37, 50, 112, 77, 63, 45, 49]
