@@ -74,11 +74,11 @@ class MyHomePageState extends State<MyHomePage> {
                       _name = nameController.text;
                       _code = codeController.text;
                       _password = generatePassword(_name, _code);
-                      print("test" + _name + _code + _password);
+                      print(_password);
                     });
                   },
                   child: const Text('Generate Password')),
-              Text(_name + _code + _password)
+              Text(_password),
             ]),
       ),
     );

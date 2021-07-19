@@ -1,40 +1,54 @@
+//import 'dart:core';
+//import 'package:strings/strings.dart';
+
+//import 'package:quiver/strings.dart';
+
+//import 'package:stripe_api/stripe_api.dart';
+//import 'package:stripe_api/text_utils.dart';
+
 String generatePassword(String name, String code) {
   randomChar(namecount(name) + namecount("tiksat") + namecount(code));
 
-  var newpwd = <int>[];
+  String ret = "";
+  String rc;
 
   bool l, u, d, o;
   do {
-    newpwd.length = 0;
     l = u = d = o = false;
+
+    ret = "";
     for (int i = 0; i < 6; i++) {
-//      newpwd[i] = randomChar(0);
-      newpwd.add(randomChar(0));
-      if (newpwd[i] >= 97 && newpwd[i] <= 122) // islower?
+      rc = randomChar(0);
+
+      ret += rc;
+      if (rc.codeUnitAt(0) >= "a".codeUnitAt(0) &&
+          rc.codeUnitAt(0) <= "z".codeUnitAt(0)) // islower?
         l = true;
-      else if (newpwd[i] >= 65 && newpwd[i] <= 90) // isupper?
+      else if (rc.codeUnitAt(0) >= "A".codeUnitAt(0) &&
+          rc.codeUnitAt(0) <= "Z".codeUnitAt(0)) // isupper?
         u = true;
-      else if (newpwd[i] >= 48 && newpwd[i] <= 57) // isdigit?
+      else if (rc.codeUnitAt(0) >= "0".codeUnitAt(0) &&
+          rc.codeUnitAt(0) <= "9".codeUnitAt(0)) // isdigit?
         d = true;
       else
         o = true;
     }
-//    newpwd[6] = randomChar(0);
-    newpwd.add(randomChar(0));
-//    newpwd[7] = randomChar(0);
-    newpwd.add(randomChar(0));
+    ret += randomChar(0);
+    ret += randomChar(0);
   } while (!l || !u || !d || !o);
-  return newpwd.toString();
+  return ret;
 }
 
 String validChar =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz-_<>+*?=()/&%\$!,.;:";
 
-int randomChar(int start) {
+String randomChar(int start) {
+  int idx;
   if (start.compareTo(0) != 0) myStartRand(start);
 //		myStartRand(start & 0xffffffff);
 //	return(validChar[myRand()%len(validChar)]);
-  return (validChar.codeUnitAt(myRand() % validChar.length));
+  idx = myRand() % validChar.length;
+  return (validChar.substring(idx, idx + 1));
 }
 
 int namecount(String name) {
@@ -50,12 +64,13 @@ const int MAX = 1000;
 const int SEED = 12345;
 //var r = <int>[MAX]; //fill
 
-var r = List<int>.filled(1000, 0);
+var r = List<int>.filled(10000, 0);
 int init = 0;
 int i = 0;
 
 void myStartRand(int seed) {
   r[0] = seed;
+  init = 0;
   //r.length = MAX;
 }
 
