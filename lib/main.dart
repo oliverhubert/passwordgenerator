@@ -3,7 +3,7 @@ import 'makepwd.dart';
 import 'prng.dart';
 
 void main() {
-  myStartRand(0xA2FBE3B0);
+//  myStartRand(0xFFFFFFFFA2FBE3B0);
   runApp(MyApp());
 }
 
@@ -76,8 +76,8 @@ class MyHomePageState extends State<MyHomePage> {
                     setState(() {
                       _name = nameController.text;
                       _code = codeController.text;
-                      _password = myRand().toString();
-                      //      _password = generatePassword(_name, _code);
+//                      _password = myRand().toString();
+                      _password = generatePassword(_name, _code);
                       print(_password);
                     });
                   },

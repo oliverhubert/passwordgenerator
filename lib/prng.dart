@@ -12,7 +12,11 @@ int init = 0;
 int i = 0;
 
 void myStartRand(int seed) {
-  r[0] = seed & 0x00000000ffffffff;
+  if (seed > 2147483648) {
+    r[0] = seed | 0xffffffff00000000;
+  } else {
+    r[0] = seed & 0x00000000ffffffff;
+  }
   init = 0;
 }
 
@@ -20,7 +24,7 @@ int myRand() {
   if (init == 0) {
     init = 1;
     for (i = 1; i < 31; i++) {
-      r[i] = ((16807 * (r[i - 1])) % 2147483647) & 0x00000000ffffffff;
+      r[i] = ((16807 * (r[i - 1])) % 2147483647);
       if (r[i] < 0) {
         r[i] += 2147483647;
         r[i] &= 0x00000000ffffffff;
