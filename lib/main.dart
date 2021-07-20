@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'generatepw.dart';
+import 'makepwd.dart';
+import 'prng.dart';
 
 void main() {
+  myStartRand(0xA2FBE3B0);
   runApp(MyApp());
 }
 
@@ -31,6 +33,7 @@ class MyHomePageState extends State<MyHomePage> {
   String _password = "";
   String _name = "";
   String _code = "";
+
   final nameController = TextEditingController();
   final codeController = TextEditingController();
 
@@ -73,7 +76,8 @@ class MyHomePageState extends State<MyHomePage> {
                     setState(() {
                       _name = nameController.text;
                       _code = codeController.text;
-                      _password = generatePassword(_name, _code);
+                      _password = myRand().toString();
+                      //      _password = generatePassword(_name, _code);
                       print(_password);
                     });
                   },

@@ -1,10 +1,4 @@
-//import 'dart:core';
-//import 'package:strings/strings.dart';
-
-//import 'package:quiver/strings.dart';
-
-//import 'package:stripe_api/stripe_api.dart';
-//import 'package:stripe_api/text_utils.dart';
+import 'prng.dart';
 
 String generatePassword(String name, String code) {
   randomChar(namecount(name) + namecount("tiksat") + namecount(code));
@@ -44,7 +38,7 @@ String validChar =
 
 String randomChar(int start) {
   int idx;
-  if (start.compareTo(0) != 0) myStartRand(start);
+  if (start.compareTo(0) != 0) myStartRand(start & 0xffffffff);
 //		myStartRand(start & 0xffffffff);
 //	return(validChar[myRand()%len(validChar)]);
   idx = myRand() % validChar.length;
@@ -57,49 +51,5 @@ int namecount(String name) {
     ret += name.codeUnitAt(i);
     ret *= validChar.length;
   }
-  return (ret);
-}
-
-const int MAX = 1000;
-const int SEED = 12345;
-//var r = <int>[MAX]; //fill
-
-var r = List<int>.filled(10000, 0);
-int init = 0;
-int i = 0;
-
-void myStartRand(int seed) {
-  r[0] = seed;
-  init = 0;
-  //r.length = MAX;
-}
-
-int myRand() {
-  if (init == 0) {
-    init = 1;
-    for (i = 1; i < 31; i++) {
-//      r[i] = (16807LL * r[i-1]) % 2147483647;
-      r[i] = (16807 * r[i - 1]) % 2147483647;
-      //r.add((16807 * r[i - 1]) % 2147483647);
-      if (r[i] < 0) {
-        r[i] += 2147483647;
-      }
-    }
-    for (i = 31; i < 34; i++) {
-      r[i] = r[i - 31];
-//      r.add(r[i - 31]);
-    }
-    for (i = 34; i < 344; i++) {
-      r[i] = r[i - 31] + r[i - 3];
-//      r.add(r[i - 31] + r[i - 3]);
-    }
-  }
-  if (i < MAX)
-    r[i] = r[i - 31] + r[i - 3];
-//  r.add(r[i - 31] + r[i - 3]);
-  else {
-    print("\nRandom Overflow!");
-    //exit(1);
-  }
-  return (r[i++] >> 1);
+  return (ret & 0x00000000ffffffff);
 }
