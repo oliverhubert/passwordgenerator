@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'makepwd.dart';
 import 'prng.dart';
+import 'package:clipboard/clipboard.dart';
 
 void main() {
 //  myStartRand(0xFFFFFFFFA2FBE3B0);
@@ -16,6 +17,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.brown,
       ),
       home: MyHomePage(title: 'Taskit Password Generator'),
+    );
+  }
+}
+
+class StartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Password Generator',
+      theme: ThemeData(
+        primarySwatch: Colors.brown,
+      ),
+      home: MyHomePage(title: 'taskit makepwd'),
     );
   }
 }
@@ -41,6 +55,7 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.title),
       ),
       body: Center(
@@ -63,7 +78,7 @@ class MyHomePageState extends State<MyHomePage> {
                   suffixIcon: IconButton(
                     icon: Icon(
                       Icons.remove_red_eye,
-                      color: this._showCode ? Colors.blue : Colors.grey,
+                      color: this._showCode ? Colors.red : Colors.grey,
                     ),
                     onPressed: () {
                       setState(() => this._showCode = !this._showCode);
@@ -71,6 +86,9 @@ class MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
+              Text(''),
+              Text(''),
+              Text(''),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
@@ -82,7 +100,31 @@ class MyHomePageState extends State<MyHomePage> {
                     });
                   },
                   child: const Text('Generate Password')),
-              Text(_password),
+              Text(''),
+              Text(''),
+              Text(''),
+              Text(
+                _password,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.copy,
+                  color: Colors
+                      .grey, //          color: this._showCode ? Colors.blue : Colors.grey,
+                ),
+                onPressed: () {
+                  if (_password != "") {
+                    FlutterClipboard.copy(_password)
+                        .then((value) => print('copied'));
+                  } else {
+                    print('nothing to copy');
+                  }
+                },
+              ),
             ]),
       ),
     );
