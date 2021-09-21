@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'makepwd.dart';
+import 'makepwd2021.dart';
 import 'prng.dart';
 import 'package:clipboard/clipboard.dart';
 
 void main() {
-//  myStartRand(0xFFFFFFFFA2FBE3B0);
   runApp(MyApp());
 }
 
@@ -17,19 +17,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.brown,
       ),
       home: MyHomePage(title: 'Taskit Password Generator'),
-    );
-  }
-}
-
-class StartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Password Generator',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-      ),
-      home: MyHomePage(title: 'taskit makepwd'),
     );
   }
 }
@@ -47,6 +34,7 @@ class MyHomePageState extends State<MyHomePage> {
   String _password = "";
   String _name = "";
   String _code = "";
+  bool isSwitched = false;
 
   final nameController = TextEditingController();
   final codeController = TextEditingController();
@@ -91,13 +79,24 @@ class MyHomePageState extends State<MyHomePage> {
               Text(''),
               ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      _name = nameController.text;
-                      _code = codeController.text;
-//                      _password = myRand().toString();
-                      _password = generatePassword(_name, _code);
-                      print(_password);
-                    });
+                    if (isSwitched == false) {
+                      setState(() {
+                        _name = nameController.text;
+                        _code = codeController.text;
+
+                        _password = generatePassword2021(_name, _code);
+                        print(_password);
+                        print('switch = false');
+                      });
+                    } else
+                      setState(() {
+                        _name = nameController.text;
+                        _code = codeController.text;
+
+                        _password = generatePassword(_name, _code);
+                        print(_password);
+                        print('switch = true');
+                      });
                   },
                   child: const Text('Generate Password')),
               Text(''),
@@ -120,15 +119,25 @@ class MyHomePageState extends State<MyHomePage> {
                   if (_password != "") {
                     FlutterClipboard.copy(_password)
                         .then((value) => print('copied'));
+                  
                   } else {
                     print('nothing to copy');
                   }
                 },
+              ),
+              Switch(
+                value: isSwitched,
+                onChanged: (value) {
+                  setState(() {
+                    isSwitched = value;
+                    print(isSwitched);
+                  });
+                },
+                activeTrackColor: Colors.yellow,
+                activeColor: Colors.orangeAccent,
               ),
             ]),
       ),
     );
   }
 }
-
-// I/flutter ( 6042): testnamecode[114, 37, 50, 112, 77, 63, 45, 49]
