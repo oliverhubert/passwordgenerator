@@ -2,7 +2,7 @@ import 'prng.dart';
 
 
 
-String generatePassword2021(String name, String code) {
+String generatePasswordLegacy(String name, String code) {
   randomChar(namecount(name) + namecount("tiksat") + namecount(code));
 
   String ret = "";
