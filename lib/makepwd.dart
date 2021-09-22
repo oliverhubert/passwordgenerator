@@ -36,7 +36,7 @@ String generatePassword(String name, String code) {
 }
 
 String validChar =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz-_<>+*?=()/&%\$!,.;:";
+    "CFGHJKMNPRTVWXYZ0123456789abcdefghjkmnopqrstuvwxyz_<>+=)/,.;:";
 
 String randomChar(int start) {
   int idx;

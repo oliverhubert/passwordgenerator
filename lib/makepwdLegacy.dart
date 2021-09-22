@@ -35,7 +35,7 @@ String generatePasswordLegacy(String name, String code) {
   return ret;
 }
 
-String validChar =
+String legacyChar =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz-_<>+*?=()/&%\$!,.;:";
 
 String randomChar(int start) {
@@ -43,15 +43,15 @@ String randomChar(int start) {
   if (start.compareTo(0) != 0) myStartRand(start & 0xffffffff);
 //		myStartRand(start & 0xffffffff);
 //	return(validChar[myRand()%len(validChar)]);
-  idx = myRand() % validChar.length;
-  return (validChar.substring(idx, idx + 1));
+  idx = myRand() % legacyChar.length;
+  return (legacyChar.substring(idx, idx + 1));
 }
 
 int namecount(String name) {
   int ret = 0;
   for (int i = 0; i < name.length; i++) {
     ret += name.codeUnitAt(i);
-    ret *= validChar.length;
+    ret *= legacyChar.length;
   }
   return (ret & 0x00000000ffffffff);
 }
