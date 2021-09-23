@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: MyHomePage(title: 'Taskit Password Generator'),
+      home: MyHomePage(title: 'taskit makepwd'),
     );
   }
 }
@@ -34,7 +34,6 @@ class MyHomePageState extends State<MyHomePage> {
   String _name = "";
   String _code = "";
   bool isSwitched = false;
-  String _modus = "";
 
   final nameController = TextEditingController();
   final codeController = TextEditingController();
@@ -47,108 +46,99 @@ class MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       backgroundColor: Colors.grey,
-      body: Card(
-        margin: EdgeInsets.all(10),
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(_modus),
-                Switch(
-                  value: isSwitched,
-                  onChanged: (value) {
-                    setState(() {
-                      isSwitched = value;
-                      modus();
-                      print(isSwitched);
-                    });
-                  },
-                  activeTrackColor: Colors.yellow,
-                  activeColor: Colors.orangeAccent,
+      body: Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  prefixIcon: Icon(Icons.person_add),
                 ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    prefixIcon: Icon(Icons.person_add),
+              ),
+              TextFormField(
+                controller: codeController,
+                obscureText: !this._showCode,
+                decoration: InputDecoration(
+                  labelText: 'Code',
+                  prefixIcon: Icon(Icons.security),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: this._showCode ? Colors.red : Colors.brown,
+                    ),
+                    onPressed: () {
+                      setState(() => this._showCode = !this._showCode);
+                    },
                   ),
                 ),
-                TextFormField(
-                  controller: codeController,
-                  obscureText: !this._showCode,
-                  decoration: InputDecoration(
-                    labelText: 'Code',
-                    prefixIcon: Icon(Icons.security),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        Icons.remove_red_eye,
-                        color: this._showCode ? Colors.red : Colors.grey,
-                      ),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                  onPressed: () {
+                    if (isSwitched == false) {
+                      setState(() {
+                        _name = nameController.text;
+                        _code = codeController.text;
+
+                        _password = generatePassword(_name, _code);
+                        print(_password);
+                        print('switch = false');
+                      });
+                    } else
+                      setState(() {
+                        _name = nameController.text;
+                        _code = codeController.text;
+
+                        _password = generatePasswordLegacy(_name, _code);
+                        print(_password);
+                        print('switch = true');
+                      });
+                  },
+                  child: const Text('Generate Password')),
+              SizedBox(height: 10),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _password,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.copy,
+                          color: _password != "" ? Colors.brown : Colors.grey),
                       onPressed: () {
-                        setState(() => this._showCode = !this._showCode);
+                        if (_password != "") {
+                          FlutterClipboard.copy(_password)
+                              .then((value) => print('copied'));
+                        }
                       },
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                    onPressed: () {
-                      if (isSwitched == false) {
-                        setState(() {
-                          _name = nameController.text;
-                          _code = codeController.text;
+              ),
+              SizedBox(height: 10),
+              Switch(
+                value: isSwitched,
+                onChanged: (value) {
+                  setState(() {
+                    isSwitched = value;
 
-                          _password = generatePassword(_name, _code);
-                          print(_password);
-                          print('switch = false');
-                        });
-                      } else
-                        setState(() {
-                          _name = nameController.text;
-                          _code = codeController.text;
-
-                          _password = generatePasswordLegacy(_name, _code);
-                          print(_password);
-                          print('switch = true');
-                        });
-                    },
-                    child: const Text('Generate Password')),
-                SizedBox(height: 20),
-                Text(
-                  _password,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                IconButton(
-                  icon: Icon(
-                    Icons.copy,
-                    color: Colors.brown,
-                  ),
-                  onPressed: () {
-                    if (_password != "") {
-                      FlutterClipboard.copy(_password)
-                          .then((value) => print('copied'));
-                    } else {
-                      print('nothing to copy');
-                    }
-                  },
-                ),
-              ]),
-        ),
+                    print(isSwitched);
+                  });
+                },
+                activeTrackColor: Colors.yellow,
+                activeColor: Colors.orangeAccent,
+              ),
+              Text("legacy"),
+            ]),
       ),
     );
-  }
-
-  modus() {
-    if (isSwitched == false) {
-      _modus = "2021 Mode active";
-    } else {
-      _modus = "Legacy Mode active";
-    }
   }
 }
