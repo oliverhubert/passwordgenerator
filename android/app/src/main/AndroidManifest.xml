@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.passwordgenerator">
    <application
-        android:label="passwordgenerator"
+        android:label="makepwd"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
