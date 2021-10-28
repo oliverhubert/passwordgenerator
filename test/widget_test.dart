@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:passwordgenerator/main.dart';
 
 void main() {
-  testWidgets('User Interface Test', (WidgetTester tester) async {
+  testWidgets('User Interface Test erfolgreich', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MaterialApp(home: MyApp()));
 
@@ -26,7 +25,7 @@ void main() {
     await tester.pump();
 
     //legacy
-    expect(find.text('Sk0Jc,_0'),findsOneWidget );
+    expect(find.text('Sk0Jc,_0'), findsOneWidget);
 
     await tester.tap(changeSwitch);
     await tester.enterText(nameFormField, 'it');
@@ -75,11 +74,5 @@ void main() {
 
     //legacy
     expect(find.text('FZ6+(rRI'), findsOneWidget);
-
-
-
-
-
   });
 }
-

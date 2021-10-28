@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'makepwd.dart';
-import 'makepwdLegacy.dart';
 import 'package:clipboard/clipboard.dart';
 
 void main() {
@@ -11,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Password Generator',
       theme: ThemeData(
         primarySwatch: Colors.brown,
@@ -33,7 +33,8 @@ class MyHomePageState extends State<MyHomePage> {
   String _password = "";
   String _name = "";
   String _code = "";
-  bool isSwitched = false;
+
+  
 
   final nameController = TextEditingController();
   final codeController = TextEditingController();
@@ -52,6 +53,7 @@ class MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                key: Key('name'),
                 controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Name',
@@ -59,6 +61,7 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               TextFormField(
+                key: Key('code'),
                 controller: codeController,
                 obscureText: !this._showCode,
                 decoration: InputDecoration(
@@ -77,25 +80,17 @@ class MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 10),
               ElevatedButton(
+                  key: Key('button1'),
                   onPressed: () {
-                    if (isSwitched == false) {
-                      setState(() {
-                        _name = nameController.text;
-                        _code = codeController.text;
+                    setState(() {
+                      _name = nameController.text;
+                      _code = codeController.text;
 
-                        _password = generatePassword(_name, _code);
-                        print(_password);
-                        print('switch = false');
-                      });
-                    } else
-                      setState(() {
-                        _name = nameController.text;
-                        _code = codeController.text;
+                      _password = Generator().generatePassword(_name, _code);
 
-                        _password = generatePasswordLegacy(_name, _code);
-                        print(_password);
-                        print('switch = true');
-                      });
+                      print(_password);
+            
+                    });
                   },
                   child: const Text('Generate Password')),
               SizedBox(height: 10),
@@ -125,10 +120,13 @@ class MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 10),
               Switch(
+                  key: Key('switch1'),
+        
                 value: isSwitched,
                 onChanged: (value) {
                   setState(() {
                     isSwitched = value;
+                   // MyHomePageState();
 
                     print(isSwitched);
                   });
