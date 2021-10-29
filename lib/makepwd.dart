@@ -1,14 +1,13 @@
 import 'prng.dart';
 
-class Generator  {
-  
+bool isSwitched = false;
+
+class Generator {
   String generatePassword(String name, String code) {
     randomChar(namecount(name) + namecount("tiksat") + namecount(code));
-    
 
     String ret = "";
     String rc;
-    
 
     bool l, u, d, o;
 
@@ -38,8 +37,6 @@ class Generator  {
     return ret;
   }
 
- 
-
   String validChar =
       "CFGHJKMNPRTVWXYZ0123456789abcdefghjkmnopqrstuvwxyz_<>+=)/,.;:";
 
@@ -48,7 +45,8 @@ class Generator  {
 
   String randomChar(int start) {
     int idx;
-    if (start.compareTo(0) != 0) myStartRand(start & 0xffffffff);
+    if (start.compareTo(0) != 0)
+      myStartRand(start - (start ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED);
 
     isSwitched
         ? idx = myRand() % legacyChar.length
@@ -63,15 +61,10 @@ class Generator  {
     int ret = 0;
     for (int i = 0; i < name.length; i++) {
       ret += name.codeUnitAt(i);
-      isSwitched
-          ? ret *= legacyChar.length
-          : ret *= validChar.length;
+      isSwitched ? ret *= legacyChar.length : ret *= validChar.length;
     }
-    return (ret & 0x00000000ffffffff);
+    return (ret - (ret ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED);
   }
-   
 }
-
-bool isSwitched = false;
 
 
