@@ -13,14 +13,11 @@ int init = 0;
 int i = 0;
 
 void myStartRand(int seed) {
-  if (seed > MAX32_SIGNED) {
-    // is negativ 32Bit ?
-    // r[0] = seed | 0xffffffff00000000;
-    r[0] = seed - MAX32_UNSIGNED;
-  } else {
-    // r[0] = seed & 0x00000000ffffffff;
-    r[0] = seed - (seed ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
-  }
+   if (seed > MAX32_SIGNED) {
+     r[0] = seed - MAX32_UNSIGNED;
+   } else {
+  r[0] = seed - (seed ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
+   }
   init = 0;
 }
 
@@ -31,7 +28,7 @@ int myRand() {
       r[i] = ((16807 * (r[i - 1])) % 2147483647);
       if (r[i] < 0) {
         r[i] += 2147483647;
-        //r[i] &= 0x00000000ffffffff;
+
         r[i] = r[i] - (r[i] ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
       }
     }
@@ -39,16 +36,15 @@ int myRand() {
       r[i] = r[i - 31];
     }
     for (i = 34; i < 344; i++) {
-      r[i] = (r[i - 31] + r[i - 3]); // & 0x00000000ffffffff;
+      r[i] = (r[i - 31] + r[i - 3]);
       r[i] = r[i] - (r[i] ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
     }
   }
   if (i < MAX) {
-    r[i] = (r[i - 31] + r[i - 3]); // & 0x00000000ffffffff;
-    r[i] = r[i] - (r[i] ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
+    r[i] = (r[i - 31] + r[i - 3]);
+    r[i] = r[i] -(r[i] ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED;
   } else {
     print("\nRandom Overflow!");
-    //exit(1);
   }
-  return (r[i++] >> 1); // & 0x00000000ffffffff);
+  return (r[i++] >> 1);
 }

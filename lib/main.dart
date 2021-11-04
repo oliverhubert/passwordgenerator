@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'makepwd.dart';
 import 'package:clipboard/clipboard.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -89,6 +90,7 @@ class MyHomePageState extends State<MyHomePage> {
                       _password = Generator().generatePassword(_name, _code);
 
                       print(_password);
+        
             
                     });
                   },
@@ -122,13 +124,12 @@ class MyHomePageState extends State<MyHomePage> {
               Switch(
                   key: Key('switch1'),
         
-                value: isSwitched,
+                value: isLegacy,
                 onChanged: (value) {
                   setState(() {
-                    isSwitched = value;
-                   // MyHomePageState();
-
-                    print(isSwitched);
+                    isLegacy = value;
+      
+                    print(isLegacy);
                   });
                 },
                 activeTrackColor: Colors.yellow,

@@ -1,6 +1,7 @@
 import 'prng.dart';
+import 'dart:core';
 
-bool isSwitched = false;
+bool isLegacy = false;
 
 class Generator {
   String generatePassword(String name, String code) {
@@ -46,13 +47,13 @@ class Generator {
   String randomChar(int start) {
     int idx;
     if (start.compareTo(0) != 0)
-      myStartRand(start - (start ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED);
+      myStartRand(start.toSigned(32));
 
-    isSwitched
+    isLegacy
         ? idx = myRand() % legacyChar.length
         : idx = myRand() % validChar.length;
 
-    return (isSwitched
+    return (isLegacy
         ? legacyChar.substring(idx, idx + 1)
         : validChar.substring(idx, idx + 1));
   }
@@ -61,10 +62,10 @@ class Generator {
     int ret = 0;
     for (int i = 0; i < name.length; i++) {
       ret += name.codeUnitAt(i);
-      isSwitched ? ret *= legacyChar.length : ret *= validChar.length;
+      isLegacy ? ret *= legacyChar.length : ret *= validChar.length;
+      ret = ret.toSigned(32);
     }
-    return (ret - (ret ~/ MAX32_UNSIGNED) * MAX32_UNSIGNED);
+
+    return (ret.toSigned(32));
   }
 }
-
-
