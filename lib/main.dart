@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'makepwd.dart';
 import 'package:clipboard/clipboard.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -34,8 +33,6 @@ class MyHomePageState extends State<MyHomePage> {
   String _password = "";
   String _name = "";
   String _code = "";
-
-  
 
   final nameController = TextEditingController();
   final codeController = TextEditingController();
@@ -80,7 +77,7 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               SizedBox(height: 10),
-              ElevatedButton(
+              ElevatedButton(          
                   key: Key('button1'),
                   onPressed: () {
                     setState(() {
@@ -90,10 +87,10 @@ class MyHomePageState extends State<MyHomePage> {
                       _password = Generator().generatePassword(_name, _code);
 
                       print(_password);
-        
-            
+               
                     });
                   },
+           
                   child: const Text('Generate Password')),
               SizedBox(height: 10),
               Container(
@@ -122,13 +119,12 @@ class MyHomePageState extends State<MyHomePage> {
               ),
               SizedBox(height: 10),
               Switch(
-                  key: Key('switch1'),
-        
+                key: Key('switch1'),
                 value: isLegacy,
                 onChanged: (value) {
                   setState(() {
                     isLegacy = value;
-      
+
                     print(isLegacy);
                   });
                 },
