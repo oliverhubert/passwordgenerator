@@ -8,7 +8,9 @@ jobs:
        with:
          channel: 'stable'
          
-    - name: passwordgenerator
+    - name: flutter test integration_test
+
       run: |
         flutter pub get
-        flutter build apk
+        flutter flutter test integration_test
+
